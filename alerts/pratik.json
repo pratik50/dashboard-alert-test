@@ -1,0 +1,33 @@
+{
+  "severity": "high",
+  "title": "pratik",
+  "query": "SELECT COUNT(*) AS `COUNT_STAR` FROM `otel-demo-logs` HAVING `COUNT_STAR` > 0",
+  "queryType": "builder",
+  "datasets": [
+    "otel-demo-logs"
+  ],
+  "alertType": "threshold",
+  "anomalyConfig": null,
+  "forecastConfig": null,
+  "thresholdConfig": {
+    "operator": ">",
+    "value": 0
+  },
+  "evalConfig": {
+    "rollingWindow": {
+      "evalStart": "1 day",
+      "evalEnd": "now",
+      "evalFrequency": 10
+    }
+  },
+  "targets": [
+    "01H7Z0XQ9G6K3JY1F5Z2X8V4E3"
+  ],
+  "state": "triggered",
+  "notificationState": "notify",
+  "notificationConfig": {
+    "interval": 1
+  },
+  "tags": [],
+  "lastTriggeredAt": "2026-11-21T10:13:08.515607698Z"
+}
