@@ -1,0 +1,3364 @@
+{
+  "tags": [
+    "opentelemetry",
+    "demo",
+    "logs",
+    "traces",
+    "metrics",
+    "promql",
+    "services"
+  ],
+  "variables": [
+    {
+      "name": "logs_dataset",
+      "label": "Demo Logs Dataset",
+      "type": "dataset",
+      "defaultValue": "otel-demo-logs"
+    },
+    {
+      "name": "traces_dataset",
+      "label": "Demo Traces Dataset",
+      "type": "dataset",
+      "defaultValue": "otel-demo-traces"
+    },
+    {
+      "name": "metrics_dataset",
+      "label": "Demo Metrics Dataset",
+      "type": "dataset",
+      "defaultValue": "otel-demo-metrics"
+    },
+    {
+      "name": "bucket_size",
+      "label": "bucket_size",
+      "type": "list",
+      "options": [
+        "1m",
+        "5m",
+        "15m",
+        "1h",
+        "1d"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "title": "Overview",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "title": "Service Health",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "title": "HTTP & APIs",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "title": "Database & Cache",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "title": "Messaging & Dependencies",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "title": "Logs & Errors",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "title": "Trace Explorer",
+      "isExpanded": false
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "title": "Metrics & Runtime",
+      "isExpanded": false
+    }
+  ],
+  "timeRange": {
+    "startTime": "10m",
+    "endTime": "now",
+    "type": "fixed",
+    "label": "Last 10 minutes",
+    "interval": 600000,
+    "shiftInterval": 1
+  },
+  "tiles": [
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(DISTINCT span_trace_id) AS value FROM $traces_dataset",
+      "dbName": "$traces_dataset",
+      "title": "Total Traces",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(*) AS value FROM $traces_dataset",
+      "dbName": "$traces_dataset",
+      "title": "Total Spans",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "teal",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 3,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(*) AS value FROM $traces_dataset WHERE span_status_code = 2",
+      "dbName": "$traces_dataset",
+      "title": "Error Spans",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS value FROM $traces_dataset",
+      "dbName": "$traces_dataset",
+      "title": "P95 Span Latency",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 9,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(*) AS value FROM $logs_dataset",
+      "dbName": "$logs_dataset",
+      "title": "Total Logs",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 5,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(*) AS value FROM $logs_dataset WHERE severity_text IN ('ERROR','WARN','WARNING') OR p_log_category IN ('ERROR','WARN','WARNING')",
+      "dbName": "$logs_dataset",
+      "title": "Error & Warning Logs",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 3,
+        "y": 5,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(DISTINCT \"service.name\") AS value FROM $traces_dataset",
+      "dbName": "$traces_dataset",
+      "title": "Active Services",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "green",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 5,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "1H4680S270ZCVJSQRPZ902XHVN",
+      "chartQuery": "SELECT COUNT(DISTINCT metric_name) AS value FROM $metrics_dataset",
+      "dbName": "$metrics_dataset",
+      "title": "Unique Metrics",
+      "tileType": "code",
+      "chartType": "query-value",
+      "config": {
+        "type": "query-value",
+        "colourScheme": "purple",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false,
+          "sparkline": true
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 9,
+        "y": 5,
+        "w": 3,
+        "h": 5
+      }
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  COUNT(*) AS spans\nFROM $traces_dataset\nGROUP BY time_bin, service_name\nORDER BY time_bin, service_name",
+      "dbName": "$traces_dataset",
+      "title": "Span Volume by Service",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "service_name"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  COUNT(*) FILTER (WHERE span_status_code = 2) AS errors\nFROM $traces_dataset\nGROUP BY time_bin, service_name\nORDER BY time_bin, service_name",
+      "dbName": "$traces_dataset",
+      "title": "Error Spans Over Time",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "errors",
+            "title": "errors",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "service_name"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "chartQuery": "SELECT COALESCE(\"service.name\", 'unknown') AS service_name,\n  ROUND(100.0 * COUNT(*) FILTER (WHERE span_status_code = 2) / NULLIF(COUNT(*), 0), 2) AS error_rate_pct\nFROM $traces_dataset\nGROUP BY service_name\nORDER BY error_rate_pct DESC",
+      "dbName": "$traces_dataset",
+      "title": "Service Error Rate",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "%",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "error_rate_pct",
+            "title": "error_rate_pct",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "chartQuery": "SELECT COALESCE(\"service.name\", 'unknown') AS service_name,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nGROUP BY service_name\nORDER BY p95_ms DESC",
+      "dbName": "$traces_dataset",
+      "title": "P95 Latency by Service",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "chartQuery": "SELECT COALESCE(\"service.name\", 'unknown') AS service_name,\n  COUNT(*) AS spans,\n  COUNT(DISTINCT span_trace_id) AS traces,\n  COUNT(*) FILTER (WHERE span_status_code = 2) AS errors,\n  ROUND(AVG(span_duration_ns / 1000000.0), 2) AS avg_ms,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nGROUP BY service_name\nORDER BY spans DESC",
+      "dbName": "$traces_dataset",
+      "title": "Service Health Summary",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 10
+      }
+    },
+    {
+      "sectionId": "6NJRZSXD2NR900X0MBCD31BZC7",
+      "chartQuery": "SELECT COALESCE(\"service.name\", 'unknown') AS service_name,\n  COALESCE(\"service.instance.id\", 'unknown') AS instance_id,\n  COALESCE(\"service.version\", 'unknown') AS version,\n  COALESCE(\"deployment.environment\", 'unknown') AS environment,\n  COUNT(*) AS spans,\n  MAX(p_timestamp) AS latest\nFROM $traces_dataset\nGROUP BY service_name, instance_id, version, environment\nORDER BY spans DESC",
+      "dbName": "$traces_dataset",
+      "title": "Service Instance Inventory",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 26,
+        "w": 12,
+        "h": 9
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": [
+        "sum by (service.name) (rate({__name__=\"http_requests_total\"}[5m]))"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "HTTP Request Rate",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "req/s",
+          "precision": 3,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": [
+        "sum by (service.name) (rate({__name__=\"errors_total\"}[5m]))"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "HTTP Error Rate",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "errors/s",
+          "precision": 3,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": "SELECT COALESCE(\"http.method\", 'unknown') AS method,\n  COUNT(*) AS spans\nFROM $traces_dataset\nWHERE \"http.method\" IS NOT NULL\nGROUP BY method\nORDER BY spans DESC",
+      "dbName": "$traces_dataset",
+      "title": "HTTP Traffic by Method",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "method",
+            "title": "method",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": "SELECT COALESCE(\"http.response.status_code\", 'unknown') AS status_code,\n  COUNT(*) AS spans\nFROM $traces_dataset\nWHERE \"http.response.status_code\" IS NOT NULL\nGROUP BY status_code\nORDER BY spans DESC",
+      "dbName": "$traces_dataset",
+      "title": "HTTP Status Mix",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "status_code",
+            "title": "status_code",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": "SELECT COALESCE(\"http.target\", 'unknown') AS route,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms,\n  COUNT(*) AS spans\nFROM $traces_dataset\nWHERE \"http.target\" IS NOT NULL\nGROUP BY route\nORDER BY p95_ms DESC\nLIMIT 25",
+      "dbName": "$traces_dataset",
+      "title": "HTTP P95 Latency by Route",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "route",
+            "title": "route",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  COUNT(*) AS requests\nFROM $traces_dataset\nWHERE span_kind_description = 'SERVER' AND \"http.method\" IS NOT NULL\nGROUP BY time_bin, service_name\nORDER BY time_bin, service_name",
+      "dbName": "$traces_dataset",
+      "title": "HTTP Server Throughput",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "teal",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "requests",
+            "title": "requests",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "service_name"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1TAQ1W640QTSA3RD6QT3PMACCX",
+      "chartQuery": "SELECT p_timestamp,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  \"http.method\" AS method,\n  \"http.target\" AS route,\n  \"http.response.status_code\" AS status_code,\n  ROUND(span_duration_ns / 1000000.0, 2) AS duration_ms,\n  span_trace_id\nFROM $traces_dataset\nWHERE \"http.method\" IS NOT NULL\nORDER BY span_duration_ns DESC\nLIMIT 50",
+      "dbName": "$traces_dataset",
+      "title": "Slow HTTP Spans",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "p_timestamp",
+            "title": "p_timestamp",
+            "display": true
+          },
+          "y": {
+            "field": "duration_ms",
+            "title": "duration_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 10
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  COALESCE(\"db.operation\", 'unknown') AS db_operation,\n  COUNT(*) AS calls\nFROM $traces_dataset\nWHERE \"db.operation\" IS NOT NULL\nGROUP BY time_bin, db_operation\nORDER BY time_bin, db_operation",
+      "dbName": "$traces_dataset",
+      "title": "Database Calls Over Time",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "calls",
+            "title": "calls",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "db_operation"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": "SELECT COALESCE(\"db.operation\", 'unknown') AS db_operation,\n  COUNT(*) AS calls,\n  ROUND(AVG(span_duration_ns / 1000000.0), 2) AS avg_ms,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nWHERE \"db.operation\" IS NOT NULL\nGROUP BY db_operation\nORDER BY p95_ms DESC",
+      "dbName": "$traces_dataset",
+      "title": "Database Latency by Operation",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "db_operation",
+            "title": "db_operation",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": "SELECT COALESCE(\"db.operation\", 'unknown') AS db_operation,\n  COUNT(*) FILTER (WHERE span_status_code = 2) AS errors\nFROM $traces_dataset\nWHERE \"db.operation\" IS NOT NULL\nGROUP BY db_operation\nORDER BY errors DESC",
+      "dbName": "$traces_dataset",
+      "title": "Database Errors by Operation",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "db_operation",
+            "title": "db_operation",
+            "display": true
+          },
+          "y": {
+            "field": "errors",
+            "title": "errors",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": "SELECT p_timestamp,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  \"db.system\" AS db_system,\n  \"db.operation\" AS db_operation,\n  \"db.name\" AS db_name,\n  ROUND(span_duration_ns / 1000000.0, 2) AS duration_ms,\n  span_status_code,\n  span_trace_id\nFROM $traces_dataset\nWHERE \"db.operation\" IS NOT NULL\nORDER BY span_duration_ns DESC\nLIMIT 50",
+      "dbName": "$traces_dataset",
+      "title": "Slow Database Spans",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "p_timestamp",
+            "title": "p_timestamp",
+            "display": true
+          },
+          "y": {
+            "field": "duration_ms",
+            "title": "duration_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": "SELECT COALESCE(\"service.name\", 'unknown') AS service_name,\n  COALESCE(\"cache.operation\", 'unknown') AS cache_operation,\n  COUNT(*) AS operations\nFROM $traces_dataset\nWHERE \"cache.operation\" IS NOT NULL\nGROUP BY service_name, cache_operation\nORDER BY operations DESC",
+      "dbName": "$traces_dataset",
+      "title": "Cache Operations by Service",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "purple",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "operations",
+            "title": "operations",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "cache_operation"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": "SELECT COALESCE(\"service.name\", 'unknown') AS service_name,\n  ROUND(100.0 * COUNT(*) FILTER (WHERE \"cache.hit\" = true) / NULLIF(COUNT(*), 0), 2) AS hit_rate_pct\nFROM $traces_dataset\nWHERE \"cache.hit\" IS NOT NULL\nGROUP BY service_name\nORDER BY hit_rate_pct DESC",
+      "dbName": "$traces_dataset",
+      "title": "Trace Cache Hit Rate",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "green",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "%",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "hit_rate_pct",
+            "title": "hit_rate_pct",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "314P67MAFSYSEVJN2DSQZ1BY88",
+      "chartQuery": [
+        "100 * sum by (service.name) (rate({__name__=\"cache_hits_total\"}[5m])) / (sum by (service.name) (rate({__name__=\"cache_hits_total\"}[5m])) + sum by (service.name) (rate({__name__=\"cache_misses_total\"}[5m])))"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Metric Cache Hit Ratio",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "green",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "%",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "chartQuery": "SELECT COALESCE(\"peer.service\", 'unknown') AS dependency,\n  COUNT(*) AS calls\nFROM $traces_dataset\nWHERE \"peer.service\" IS NOT NULL\nGROUP BY dependency\nORDER BY calls DESC",
+      "dbName": "$traces_dataset",
+      "title": "Dependency Calls",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "dependency",
+            "title": "dependency",
+            "display": true
+          },
+          "y": {
+            "field": "calls",
+            "title": "calls",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "chartQuery": "SELECT COALESCE(\"peer.service\", 'unknown') AS dependency,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms,\n  COUNT(*) AS calls\nFROM $traces_dataset\nWHERE \"peer.service\" IS NOT NULL\nGROUP BY dependency\nORDER BY p95_ms DESC",
+      "dbName": "$traces_dataset",
+      "title": "Dependency P95 Latency",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "dependency",
+            "title": "dependency",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "chartQuery": "SELECT COALESCE(\"peer.service\", 'unknown') AS dependency,\n  COUNT(*) FILTER (WHERE span_status_code = 2) AS errors\nFROM $traces_dataset\nWHERE \"peer.service\" IS NOT NULL\nGROUP BY dependency\nORDER BY errors DESC",
+      "dbName": "$traces_dataset",
+      "title": "Dependency Errors",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "dependency",
+            "title": "dependency",
+            "display": true
+          },
+          "y": {
+            "field": "errors",
+            "title": "errors",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "chartQuery": "SELECT COALESCE(\"messaging.operation\", span_name, 'unknown') AS operation,\n  COUNT(*) AS spans\nFROM $traces_dataset\nWHERE \"messaging.operation\" IS NOT NULL OR \"messaging.system\" IS NOT NULL\nGROUP BY operation\nORDER BY spans DESC\nLIMIT 20",
+      "dbName": "$traces_dataset",
+      "title": "Messaging Operations",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "purple",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "operation",
+            "title": "operation",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "chartQuery": "SELECT COALESCE(\"messaging.operation\", span_name, 'unknown') AS operation,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nWHERE \"messaging.operation\" IS NOT NULL OR \"messaging.system\" IS NOT NULL\nGROUP BY operation\nORDER BY p95_ms DESC",
+      "dbName": "$traces_dataset",
+      "title": "Messaging Latency",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "teal",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "operation",
+            "title": "operation",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7EA79VCVGC2PQXQQVJG1E76D89",
+      "chartQuery": "SELECT span_name AS operation,\n  COUNT(*) AS spans,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nWHERE span_name IN ('dns.resolve', 'tls.handshake')\nGROUP BY span_name\nORDER BY p95_ms DESC",
+      "dbName": "$traces_dataset",
+      "title": "DNS & TLS Latency",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "orange",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "operation",
+            "title": "operation",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  COALESCE(\"service.name\", service, 'unknown') AS service_name,\n  COUNT(*) AS logs\nFROM $logs_dataset\nGROUP BY time_bin, service_name\nORDER BY time_bin, service_name",
+      "dbName": "$logs_dataset",
+      "title": "Log Volume by Service",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "logs",
+            "title": "logs",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "service_name"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "chartQuery": "SELECT COALESCE(severity_text, p_log_category, 'unknown') AS severity,\n  COUNT(*) AS logs\nFROM $logs_dataset\nGROUP BY severity\nORDER BY logs DESC",
+      "dbName": "$logs_dataset",
+      "title": "Log Severity Distribution",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "severity",
+            "title": "severity",
+            "display": true
+          },
+          "y": {
+            "field": "logs",
+            "title": "logs",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  COALESCE(\"service.name\", service, 'unknown') AS service_name,\n  COUNT(*) AS errors\nFROM $logs_dataset\nWHERE severity_text IN ('ERROR','WARN','WARNING') OR p_log_category IN ('ERROR','WARN','WARNING')\nGROUP BY time_bin, service_name\nORDER BY time_bin, service_name",
+      "dbName": "$logs_dataset",
+      "title": "Error Logs Over Time",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "errors",
+            "title": "errors",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": [
+              "service_name"
+            ]
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "chartQuery": "SELECT COALESCE(\"service.name\", service, 'unknown') AS service_name,\n  COUNT(*) AS errors\nFROM $logs_dataset\nWHERE severity_text IN ('ERROR','WARN','WARNING') OR p_log_category IN ('ERROR','WARN','WARNING')\nGROUP BY service_name\nORDER BY errors DESC",
+      "dbName": "$logs_dataset",
+      "title": "Errors by Service",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "service_name",
+            "title": "service_name",
+            "display": true
+          },
+          "y": {
+            "field": "errors",
+            "title": "errors",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "chartQuery": "SELECT body,\n  COALESCE(\"service.name\", service, 'unknown') AS service_name,\n  COUNT(*) AS occurrences\nFROM $logs_dataset\nWHERE severity_text = 'ERROR' OR p_log_category = 'ERROR'\nGROUP BY body, service_name\nORDER BY occurrences DESC\nLIMIT 50",
+      "dbName": "$logs_dataset",
+      "title": "Top Error Messages",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "body",
+            "title": "body",
+            "display": true
+          },
+          "y": {
+            "field": "occurrences",
+            "title": "occurrences",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "1GTF6AAHXCBH8YZVMF8GD8EXJD",
+      "chartQuery": "SELECT p_timestamp,\n  COALESCE(\"service.name\", service, 'unknown') AS service_name,\n  COALESCE(severity_text, p_log_category, 'unknown') AS severity,\n  body,\n  trace_id,\n  span_id\nFROM $logs_dataset\nWHERE severity_text IN ('ERROR','WARN','WARNING') OR p_log_category IN ('ERROR','WARN','WARNING')\nORDER BY p_timestamp DESC\nLIMIT 100",
+      "dbName": "$logs_dataset",
+      "title": "Recent Error Logs",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "p_timestamp",
+            "title": "p_timestamp",
+            "display": true
+          },
+          "y": {
+            "field": "severity",
+            "title": "severity",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "chartQuery": "SELECT COALESCE(span_kind_description, 'unknown') AS span_kind,\n  COUNT(*) AS spans\nFROM $traces_dataset\nGROUP BY span_kind_description\nORDER BY spans DESC",
+      "dbName": "$traces_dataset",
+      "title": "Spans by Kind",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "span_kind",
+            "title": "span_kind",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "chartQuery": "SELECT COALESCE(span_name, 'unknown') AS operation,\n  COUNT(*) AS spans,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nGROUP BY operation\nORDER BY spans DESC\nLIMIT 25",
+      "dbName": "$traces_dataset",
+      "title": "Top Operations",
+      "tileType": "code",
+      "chartType": "bar",
+      "config": {
+        "type": "bar",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "operation",
+            "title": "operation",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "chartQuery": "SELECT date_bin('$bucket_size', p_timestamp, '1970-01-01T00:00:00Z') AS time_bin,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.50), 2) AS p50_ms,\n  ROUND(approx_percentile_cont(span_duration_ns / 1000000.0, 0.95), 2) AS p95_ms\nFROM $traces_dataset\nGROUP BY time_bin\nORDER BY time_bin",
+      "dbName": "$traces_dataset",
+      "title": "Trace Latency Over Time",
+      "tileType": "code",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "ms",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time_bin",
+            "title": "time_bin",
+            "display": true
+          },
+          "y": {
+            "field": "p95_ms",
+            "title": "p95_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "chartQuery": "SELECT span_trace_id,\n  MIN(p_timestamp) AS start_time,\n  COUNT(*) AS spans,\n  COUNT(*) FILTER (WHERE span_status_code = 2) AS errors,\n  ROUND(MAX(span_duration_ns) / 1000000.0, 2) AS max_span_ms,\n  COUNT(DISTINCT \"service.name\") AS services\nFROM $traces_dataset\nGROUP BY span_trace_id\nORDER BY start_time DESC\nLIMIT 50",
+      "dbName": "$traces_dataset",
+      "title": "Recent Trace Summary",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "start_time",
+            "title": "start_time",
+            "display": true
+          },
+          "y": {
+            "field": "spans",
+            "title": "spans",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "chartQuery": "SELECT p_timestamp,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  span_name,\n  span_kind_description,\n  ROUND(span_duration_ns / 1000000.0, 2) AS duration_ms,\n  span_status_code,\n  span_trace_id\nFROM $traces_dataset\nORDER BY span_duration_ns DESC\nLIMIT 50",
+      "dbName": "$traces_dataset",
+      "title": "Slowest Spans",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "p_timestamp",
+            "title": "p_timestamp",
+            "display": true
+          },
+          "y": {
+            "field": "duration_ms",
+            "title": "duration_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "7RA9K4F2CWN3AY0SSE11ZPE4DE",
+      "chartQuery": "SELECT p_timestamp,\n  COALESCE(\"service.name\", 'unknown') AS service_name,\n  span_name,\n  ROUND(span_duration_ns / 1000000.0, 2) AS duration_ms,\n  COALESCE(\"event_exception.message\", span_status_message, span_status_description) AS error_message,\n  span_trace_id\nFROM $traces_dataset\nWHERE span_status_code = 2\nORDER BY p_timestamp DESC\nLIMIT 50",
+      "dbName": "$traces_dataset",
+      "title": "Recent Error Spans",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "p_timestamp",
+            "title": "p_timestamp",
+            "display": true
+          },
+          "y": {
+            "field": "duration_ms",
+            "title": "duration_ms",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "avg by (service.name) ({__name__=\"cpu_usage_percent\"})"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "CPU Usage by Service",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "orange",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "%",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "avg by (service.name) ({__name__=\"memory_usage_percent\"})"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Memory Usage by Service",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "purple",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "%",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "sum by (service.name) (rate({__name__=\"active_requests\"}[5m]))"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Active Request Change Rate",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "req/s",
+          "precision": 3,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "sum by (service.name) (rate({__name__=\"queue_size\"}[5m]))"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Queue Growth Rate",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "red",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "items/s",
+          "precision": 3,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "sum by (service.name) (rate({__name__=\"db_queries_total\"}[5m]))"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Database Query Rate",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "teal",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "queries/s",
+          "precision": 3,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "sum by (service.name) (rate({__name__=\"bytes_received_total\"}[5m]))",
+        "sum by (service.name) (rate({__name__=\"bytes_sent_total\"}[5m]))"
+      ],
+      "promqlQueryType": [
+        "range",
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Network Byte Rate",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "blue",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "bytes/s",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 16,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "avg by (service.name) ({__name__=\"thread_count\"})"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Thread Count",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "yellow",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 24,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": [
+        "avg by (service.name) ({__name__=\"connection_pool_available\"})"
+      ],
+      "promqlQueryType": [
+        "range"
+      ],
+      "dbName": "$metrics_dataset",
+      "title": "Connection Pool Available",
+      "tileType": "promql",
+      "chartType": "line",
+      "config": {
+        "type": "line",
+        "colourScheme": "green",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 0,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "time",
+            "title": "Time",
+            "display": true
+          },
+          "y": {
+            "field": "value",
+            "title": "Value",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 24,
+        "w": 6,
+        "h": 8
+      }
+    },
+    {
+      "sectionId": "30YCSMFXTEY5J9KGTK9GMDWDN7",
+      "chartQuery": "SELECT metric_name,\n  metric_type,\n  metric_unit,\n  COUNT(*) AS samples,\n  COUNT(DISTINCT __series_hash_u64) AS series,\n  MIN(p_timestamp) AS first_seen,\n  MAX(p_timestamp) AS last_seen\nFROM $metrics_dataset\nGROUP BY metric_name, metric_type, metric_unit\nORDER BY samples DESC",
+      "dbName": "$metrics_dataset",
+      "title": "Metric Inventory",
+      "tileType": "code",
+      "chartType": "table",
+      "config": {
+        "type": "table",
+        "colourScheme": "classic",
+        "layout": {
+          "legendPosition": "bottom",
+          "unit": "",
+          "precision": 2,
+          "humanize": true,
+          "segments": {
+            "value": [
+              10,
+              90
+            ],
+            "isPercent": true
+          },
+          "label": false
+        },
+        "axes": {
+          "x": {
+            "field": "metric_name",
+            "title": "metric_name",
+            "display": true
+          },
+          "y": {
+            "field": "samples",
+            "title": "samples",
+            "display": true,
+            "beginAtZero": true
+          },
+          "groupBy": {
+            "field": []
+          }
+        },
+        "advanced": {
+          "dataLabels": {
+            "enabled": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "mode": "index",
+            "intersect": false
+          }
+        }
+      },
+      "layout": {
+        "x": 0,
+        "y": 32,
+        "w": 12,
+        "h": 10
+      }
+    }
+  ]
+}
